@@ -13,3 +13,19 @@ export function loginAPI(data) {
     data
   })
 }
+// 首页-工作台-基础信息查询
+
+export function infoAPI() {
+  return request({
+    url: 'home/workbench/info',
+    method: 'GET'
+  })
+}
+// 首页-工作台-临期合同查询
+export function rentInfoAPI({ params }) {
+  return request({
+    url: 'home/workbench/rentInfo',
+    method: 'GET',
+    data: params
+  })
+}

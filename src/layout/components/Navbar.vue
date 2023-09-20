@@ -26,7 +26,8 @@
 export default {
   methods: {
     // 退出登录
-    logout() {
+    async  logout() {
+      await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     }
   }

@@ -3,27 +3,27 @@
     <div class="bg" />
     <div class="box">
       <div class="title">智慧园区-登录</div>
-      <el-form ref="form">
+      <el-form ref="form" :model="form" :rules="rules">
         <el-form-item
           label="账号"
           prop="username"
         >
-          <el-input />
+          <el-input v-model="form.username" />
         </el-form-item>
 
         <el-form-item
           label="密码"
           prop="password"
         >
-          <el-input />
+          <el-input v-model="form.password" />
         </el-form-item>
 
         <el-form-item prop="remember">
-          <el-checkbox>记住我</el-checkbox>
+          <el-checkbox v-model="remember">记住我</el-checkbox>
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" class="login_btn">登录</el-button>
+          <el-button type="primary" class="login_btn" @click="loginHandle">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -31,9 +31,43 @@
 </template>
 
 <script>
-
+import { mapActions } from 'vuex'
 export default {
-  name: 'Login'
+  name: 'Login',
+  data() {
+    return {
+      form: {
+        username: 'demo',
+        password: 'zh@hm#23'
+      },
+      remember: true,
+      rules: {
+        username: [
+          { required: true, message: '请输入账号', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' }
+        ]
+      }
+    }
+  },
+  methods: {
+    ...mapActions('user', ['login']),
+    loginHandle() {
+      this.$refs['form'].validate(async(valid) => {
+        if (valid) {
+          // alert('submit!')
+          // 调用axtions登录方法
+          await this.login(this.form)
+          // 跳转首页
+          this.$router.push('/')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
+  }
 
 }
 
